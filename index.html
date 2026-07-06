@@ -884,11 +884,11 @@
     <p class="legendary">¡¡Misión legendaria activada!!<br>Encuentra un retrete antes de que sea demasiado tarde.</p>
   </section>
 
-  <ul class="legend" aria-label="Niveles de urgencia">
-    <li><span class="dot" style="background:#5f8a33"></span>Reservado</li>
-    <li><span class="dot" style="background:#c9a227"></span>Moderado</li>
+  <ul class="legend" aria-label="Niveles de la barra">
+    <li><span class="dot" style="background:#a32014"></span>💀 0%</li>
     <li><span class="dot" style="background:#c26a1c"></span>Casi urg.</li>
-    <li><span class="dot" style="background:#a32014"></span>Urgente</li>
+    <li><span class="dot" style="background:#c9a227"></span>Moderado</li>
+    <li><span class="dot" style="background:#5f8a33"></span>Conseguido</li>
   </ul>
   </section><!-- /estado -->
 
@@ -1130,15 +1130,15 @@
 
   // ── color y urgencia ────────────────────────
   function barColor(v) {
-    var hue = Math.max(0, 95 - v * 0.95); // 0% → verde, 100% → rojo
+    var hue = Math.min(95, v * 0.95); // 0% → rojo (muerte), 100% → verde (conseguido)
     return "hsl(" + hue + ", 62%, 36%)";
   }
 
   function urgencyLabel(v) {
-    if (v <= 30) return "Reservado";
-    if (v <= 60) return "Moderado";
-    if (v <= 85) return "Casi urgente";
-    return "¡Urgente!";
+    if (v <= 30) return "¡Urgente!";
+    if (v <= 60) return "Casi urgente";
+    if (v <= 85) return "Moderado";
+    return "Conseguido";
   }
 
   function pctText(v) { return v === 0 ? "💀" : v + "%"; }
@@ -1214,8 +1214,9 @@
   function renderDoom() {
     var v = state.doom;
     doom.fill.style.width = v + "%";
-    doom.pct.textContent = pctText(v);
-    doom.urgency.textContent = urgencyLabel(v);
+    // en CAGAR manda la urgencia: 0% es calma y 100% es la misión legendaria
+    doom.pct.textContent = v + "%";
+    doom.urgency.textContent = v <= 30 ? "Reservado" : v <= 60 ? "Moderado" : v <= 85 ? "Casi urgente" : "¡Urgente!";
     doom.slider.value = v;
     doom.el.querySelector(".bar").setAttribute("aria-valuenow", v);
     doom.el.classList.toggle("maxed", v === 100);
