@@ -366,6 +366,9 @@
     text-align: center;
   }
   .hero-frame {
+    /* algo más pequeña que el ancho completo, centrada y sin recorte */
+    max-width: 74%;
+    margin: 0 auto;
     border: 2px solid var(--frame-dark);
     outline: 1px solid #6b5233;
     outline-offset: -4px;
@@ -645,6 +648,29 @@
     border: 1px dashed #8a6c3e;
     border-radius: 3px;
     padding: 8px;
+  }
+
+  /* En edición, la pestaña ocupa toda la altura para que el editor
+     se vea siempre completo sin scroll: la imagen encoge y el
+     área de texto rellena el espacio restante. */
+  body.editing #tab-diario.tab.active {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  body.editing #tab-diario .hero { flex: 0 0 auto; margin-bottom: 10px; }
+  body.editing #tab-diario .hero-frame { max-width: 46%; }
+  body.editing #tab-diario .diary-page {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  body.editing #tab-diario .diary-edit { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+  body.editing #tab-diario .diary-edit textarea {
+    flex: 1 1 auto;
+    min-height: 0;
+    resize: none;
   }
   .diary-edit textarea:focus-visible { outline: 2px solid var(--gold); }
 
