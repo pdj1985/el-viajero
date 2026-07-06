@@ -366,9 +366,9 @@
     text-align: center;
   }
   .hero-frame {
-    /* algo más pequeña que el ancho completo, centrada y sin recorte */
-    max-width: 74%;
-    margin: 0 auto;
+    /* se ajusta al tamaño de la lámina y queda centrada */
+    display: inline-block;
+    max-width: 100%;
     border: 2px solid var(--frame-dark);
     outline: 1px solid #6b5233;
     outline-offset: -4px;
@@ -378,10 +378,12 @@
     background: var(--parchment);
   }
   #heroImg {
-    /* la lámina al 100%: ancho completo y sin recorte */
+    /* lámina limitada en altura para dejar sitio al diario, sin recorte */
     display: block;
-    width: 100%;
+    width: auto;
     height: auto;
+    max-width: 100%;
+    max-height: 42vh;
   }
   .hero-cap {
     font-style: italic;
@@ -659,7 +661,7 @@
     height: 100%;
   }
   body.editing #tab-diario .hero { flex: 0 0 auto; margin-bottom: 10px; }
-  body.editing #tab-diario .hero-frame { max-width: 46%; }
+  body.editing #tab-diario #heroImg { max-height: 24vh; }
   body.editing #tab-diario .diary-page {
     flex: 1 1 auto;
     min-height: 0;
