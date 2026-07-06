@@ -378,12 +378,12 @@
     background: var(--parchment);
   }
   #heroImg {
-    /* lámina limitada en altura para dejar sitio al diario, sin recorte */
+    /* la lámina se ajusta al hueco disponible sin recorte ni deformación */
     display: block;
     width: auto;
     height: auto;
     max-width: 100%;
-    max-height: 42vh;
+    max-height: 100%;
   }
   .hero-cap {
     font-style: italic;
@@ -652,16 +652,36 @@
     padding: 8px;
   }
 
-  /* En edición, la pestaña ocupa toda la altura para que el editor
-     se vea siempre completo sin scroll: la imagen encoge y el
-     área de texto rellena el espacio restante. */
-  body.editing #tab-diario.tab.active {
+  /* La pestaña del diario ocupa toda la altura disponible (sin depender
+     del alto de la ventana): la lámina encoge según el hueco libre y el
+     texto siempre queda visible sin scroll. */
+  .content:has(#tab-diario.active) { display: flex; flex-direction: column; }
+  #tab-diario.tab.active {
+    flex: 1 1 auto;
+    min-height: 0;
     display: flex;
     flex-direction: column;
-    height: 100%;
   }
-  body.editing #tab-diario .hero { flex: 0 0 auto; margin-bottom: 10px; }
-  body.editing #tab-diario #heroImg { max-height: 24vh; }
+  #tab-diario .hero {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0 12px;
+  }
+  #tab-diario .hero-frame {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #tab-diario .diary-page { flex: 0 0 auto; }
+
+  /* En edición el texto manda: la lámina se reduce y el área editable
+     rellena el resto. */
+  body.editing #tab-diario .hero { flex: 0 1 auto; max-height: 32%; }
   body.editing #tab-diario .diary-page {
     flex: 1 1 auto;
     min-height: 0;
